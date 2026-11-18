@@ -6,3 +6,7 @@ COPY railway_setup.py /app/backend/plane/db/management/commands/railway_setup.py
 
 # Añade la redirección desde cualquier subdominio de Railway hacia tu dominio custom
 RUN printf '\nhttp://*.up.railway.app {\n    redir https://{$CUSTOM_DOMAIN}{uri} permanent\n}\n' >> /app/proxy/Caddyfile
+
+# Inyecta una regla CSS global en los archivos compilados para ocultar el botón de GitHub
+RUN find /app/web/.next/static/css /app/space/.next/static/css -name "*.css" -exec \
+    sh -c 'echo "a[href*=\"://github.com\"] { display: none !important; }" >> "$1"' _ {} \;
