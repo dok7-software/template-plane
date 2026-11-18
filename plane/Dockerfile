@@ -8,5 +8,6 @@ COPY railway_setup.py /app/backend/plane/db/management/commands/railway_setup.py
 RUN printf '\nhttp://*.up.railway.app {\n    redir https://{$CUSTOM_DOMAIN}{uri} permanent\n}\n' >> /app/proxy/Caddyfile
 
 # Inyecta una regla CSS global en los archivos compilados para ocultar el botón de GitHub
-RUN find /app/web/.next/static/css /app/space/.next/static/css -name "*.css" -exec \
-    sh -c 'echo "a[href*=\"://github.com\"] { display: none !important; }" >> "$1"' _ {} \;
+RUN find /app/web /app/space -type f -name "*.css" \
+    ! -path "*/node_modules/*" \
+    -exec sh -c 'printf "\na[href*=\"://github.com\"] { display: none !important; }\n" >> "$1"' _ {} \;
