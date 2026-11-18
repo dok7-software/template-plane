@@ -6,4 +6,3 @@ COPY railway_setup.py /app/backend/plane/db/management/commands/railway_setup.py
 
 # Añade la redirección desde cualquier subdominio de Railway hacia tu dominio custom
 RUN printf '\nhttp://*.up.railway.app {\n    redir https://{$CUSTOM_DOMAIN}{uri} permanent\n}\n' >> /app/proxy/Caddyfile
-
